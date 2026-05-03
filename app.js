@@ -101,6 +101,15 @@ function formatWon(value) {
   }).format(value);
 }
 
+function formatNumberInput(value) {
+  const digits = String(value).replace(/[^\d]/g, "");
+  return digits ? new Intl.NumberFormat("ko-KR").format(Number(digits)) : "";
+}
+
+function parseMoney(value) {
+  return Number(String(value).replace(/[^\d]/g, ""));
+}
+
 function formatSigned(value) {
   const sign = value > 0 ? "+" : "";
   return `${sign}${formatWon(value)}`;
@@ -409,7 +418,7 @@ function createEntryRow(dateValue = `${selectedMonth}-01`) {
       </label>
       <label class="field">
         <span>\uae08\uc561</span>
-        <input name="amount" type="number" inputmode="numeric" min="1" step="1" placeholder="0" required />
+        <input name="amount" type="text" inputmode="numeric" placeholder="0" required />
       </label>
       <label class="field">
         <span>\ubd84\ub958</span>
@@ -442,6 +451,9 @@ function createEntryRow(dateValue = `${selectedMonth}-01`) {
   row.querySelector(".batch-row-header strong").textContent = `#${entryRows.children.length + 1}`;
   row.querySelector(".remove-row").textContent = "\uc0ad\uc81c";
   row.querySelector('input[name="entryDate"]').value = dateValue;
+  row.querySelector('input[name="amount"]').addEventListener("input", (event) => {
+    event.target.value = formatNumberInput(event.target.value);
+  });
   row.querySelector(".remove-row").addEventListener("click", () => {
     if (entryRows.children.length > 1) {
       row.remove();
@@ -485,7 +497,7 @@ function collectRows() {
       entry_date: row.querySelector('input[name="entryDate"]').value,
       title: row.querySelector('input[name="title"]').value.trim(),
       payer: row.querySelector('select[name="payer"]').value,
-      amount: Number(row.querySelector('input[name="amount"]').value),
+      amount: parseMoney(row.querySelector('input[name="amount"]').value),
       category: row.querySelector('select[name="category"]').value,
       payment_method: row.querySelector('select[name="paymentMethod"]').value,
     };
