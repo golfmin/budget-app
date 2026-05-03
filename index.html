@@ -10,7 +10,7 @@
     <title>&#44032;&#44228;&#48512;</title>
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" href="./icon.svg" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20260503d" />
   </head>
   <body>
     <main class="app-shell">
@@ -45,20 +45,22 @@
             <input id="passwordInput" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="6&#51088; &#51060;&#49345;" required />
           </label>
 
-          <label class="field">
-            <span>&#44277;&#50976; &#53076;&#46300;</span>
-            <input id="householdCodeInput" name="householdCode" type="text" autocapitalize="characters" placeholder="&#50696;: FAMILY2026" required />
-          </label>
-
           <div class="button-row">
             <button class="primary-button" id="signInButton" type="submit">&#47196;&#44536;&#51064;</button>
-            <button class="secondary-button" id="signUpButton" type="button">&#54924;&#50896;&#44032;&#51077;</button>
+            <button class="secondary-button" id="openSignUpButton" type="button">&#54924;&#50896;&#44032;&#51077;</button>
           </div>
-          <p class="helper-text">&#46160; &#49324;&#46988;&#51060; &#44057;&#51008; &#44277;&#50976; &#53076;&#46300;&#47484; &#51077;&#47141;&#54616;&#47732; &#44057;&#51008; &#44032;&#44228;&#48512;&#47484; &#48389;&#45768;&#45796;.</p>
+          <p class="helper-text">&#44592;&#51316; &#44228;&#51221;&#51008; &#51060;&#47700;&#51068;&#44284; &#48708;&#48128;&#48264;&#54840;&#47564; &#51077;&#47141;&#54644; &#47196;&#44536;&#51064;&#54633;&#45768;&#45796;.</p>
         </form>
       </section>
 
       <section id="appPanel" hidden>
+        <div class="month-picker">
+          <label class="field compact-field">
+            <span>&#51312;&#54924; &#50900;</span>
+            <select id="monthSelect"></select>
+          </label>
+        </div>
+
         <section class="summary" aria-label="&#50900;&#44036; &#50836;&#50557;">
           <article>
             <span>&#49688;&#51077;</span>
@@ -74,43 +76,18 @@
           </article>
         </section>
 
-        <form class="entry-form" id="entryForm">
-          <div class="segmented" role="group" aria-label="&#44144;&#47000; &#50976;&#54805;">
-            <label>
-              <input type="radio" name="type" value="expense" checked />
-              <span>&#51648;&#52636;</span>
-            </label>
-            <label>
-              <input type="radio" name="type" value="income" />
-              <span>&#49688;&#51077;</span>
-            </label>
+        <section class="calendar-panel" aria-label="&#51068;&#51088;&#48324; &#54633;&#49328;">
+          <div class="weekday-row">
+            <span>&#51068;</span>
+            <span>&#50900;</span>
+            <span>&#54868;</span>
+            <span>&#49688;</span>
+            <span>&#47785;</span>
+            <span>&#44552;</span>
+            <span>&#53664;</span>
           </div>
-
-          <label class="field">
-            <span>&#54637;&#47785;</span>
-            <input id="titleInput" name="title" type="text" placeholder="&#50696;: &#51216;&#49900;, &#50900;&#44553;" required />
-          </label>
-
-          <label class="field">
-            <span>&#44552;&#50529;</span>
-            <input id="amountInput" name="amount" type="number" inputmode="numeric" min="1" step="1" placeholder="0" required />
-          </label>
-
-          <label class="field">
-            <span>&#48516;&#47448;</span>
-            <select id="categoryInput" name="category">
-              <option>&#49885;&#48708;</option>
-              <option>&#44368;&#53685;</option>
-              <option>&#49373;&#54876;</option>
-              <option>&#49660;&#54609;</option>
-              <option>&#44256;&#51221;&#48708;</option>
-              <option>&#44553;&#50668;</option>
-              <option>&#44592;&#53440;</option>
-            </select>
-          </label>
-
-          <button class="primary-button" id="addEntryButton" type="submit">&#44592;&#47197; &#52628;&#44032;</button>
-        </form>
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </section>
 
         <section class="history" aria-label="&#44144;&#47000; &#45236;&#50669;">
           <div class="section-title">
@@ -122,11 +99,73 @@
         </section>
       </section>
 
+      <button class="fab-button" id="openEntrySheetButton" type="button" hidden>
+        &#44032;&#44228;&#48512; &#46321;&#47197;
+      </button>
+
+      <section class="sheet-backdrop" id="entrySheet" hidden>
+        <form class="entry-sheet" id="batchEntryForm">
+          <div class="sheet-header">
+            <div>
+              <p class="eyebrow">&#50668;&#47084; &#54637;&#47785; &#51068;&#44292; &#46321;&#47197;</p>
+              <h2>&#44032;&#44228;&#48512; &#46321;&#47197;</h2>
+            </div>
+            <button class="icon-button" id="closeEntrySheetButton" type="button" aria-label="&#45803;&#44592;">&#215;</button>
+          </div>
+
+          <div id="entryRows" class="entry-rows"></div>
+
+          <div class="button-row">
+            <button class="secondary-button" id="addRowButton" type="button">&#54637;&#47785; &#52628;&#44032;</button>
+            <button class="primary-button" type="submit">&#51200;&#51109;</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="dialog-backdrop" id="verifiedDialog" hidden>
+        <div class="dialog">
+          <strong>&#51064;&#51613;&#51060; &#50756;&#47308;&#46104;&#50632;&#49845;&#45768;&#45796;.</strong>
+          <p>&#51060;&#51228; &#48512;&#48512; &#44277;&#50976; &#44032;&#44228;&#48512;&#47484; &#49324;&#50857;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.</p>
+          <button class="primary-button" id="closeVerifiedDialogButton" type="button">&#54869;&#51064;</button>
+        </div>
+      </section>
+
+      <section class="dialog-backdrop" id="signUpDialog" hidden>
+        <form class="dialog signup-dialog" id="signUpForm">
+          <div class="sheet-header">
+            <div>
+              <p class="eyebrow">&#49352; &#44228;&#51221;</p>
+              <h2>&#54924;&#50896;&#44032;&#51077;</h2>
+            </div>
+            <button class="icon-button" id="closeSignUpButton" type="button" aria-label="&#45803;&#44592;">&#215;</button>
+          </div>
+
+          <label class="field">
+            <span>&#51060;&#47700;&#51068;</span>
+            <input id="signUpEmailInput" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          </label>
+
+          <label class="field">
+            <span>&#48708;&#48128;&#48264;&#54840;</span>
+            <input id="signUpPasswordInput" name="password" type="password" autocomplete="new-password" minlength="6" placeholder="6&#51088; &#51060;&#49345;" required />
+          </label>
+
+          <label class="field">
+            <span>&#44277;&#50976; &#53076;&#46300;</span>
+            <input id="signUpHouseholdCodeInput" name="householdCode" type="text" autocapitalize="characters" placeholder="&#50696;: FAMILY2026" required />
+          </label>
+
+          <p class="helper-text">&#48512;&#48512;&#44032; &#44057;&#51008; &#44277;&#50976; &#53076;&#46300;&#47484; &#49324;&#50857;&#54616;&#47732; &#44057;&#51008; &#44032;&#44228;&#48512;&#47484; &#48389;&#45768;&#45796;.</p>
+
+          <button class="primary-button" id="signUpButton" type="submit">&#44228;&#51221; &#49373;&#49457;</button>
+        </form>
+      </section>
+
       <p class="toast" id="toast" role="status" aria-live="polite" hidden></p>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./config.js?v=20260503"></script>
-    <script src="./app.js?v=20260503b" defer></script>
+    <script src="./app.js?v=20260503d" defer></script>
   </body>
 </html>

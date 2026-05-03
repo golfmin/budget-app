@@ -24,6 +24,11 @@ body {
   color: var(--ink);
 }
 
+body:has(.sheet-backdrop:not([hidden])),
+body:has(.dialog-backdrop:not([hidden])) {
+  overflow: hidden;
+}
+
 button,
 input,
 select {
@@ -38,7 +43,7 @@ select {
   width: min(100%, 520px);
   min-height: 100vh;
   margin: 0 auto;
-  padding: calc(18px + env(safe-area-inset-top)) 18px calc(28px + env(safe-area-inset-bottom));
+  padding: calc(18px + env(safe-area-inset-top)) 18px calc(92px + env(safe-area-inset-bottom));
 }
 
 .topbar {
@@ -97,11 +102,94 @@ h2 {
   line-height: 1.45;
 }
 
+.month-picker {
+  margin-bottom: 12px;
+}
+
+.compact-field {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+.compact-field span {
+  margin-right: 8px;
+}
+
 .summary {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-bottom: 16px;
+}
+
+.calendar-panel {
+  margin-bottom: 18px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.weekday-row,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.weekday-row {
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.calendar-grid {
+  gap: 4px;
+}
+
+.calendar-day {
+  display: grid;
+  grid-template-rows: 18px 24px;
+  align-items: center;
+  justify-items: center;
+  min-width: 0;
+  min-height: 54px;
+  padding: 4px 2px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: #fffdf7;
+  color: var(--ink);
+}
+
+.calendar-day.blank {
+  background: transparent;
+}
+
+.calendar-day:not(.blank):active {
+  border-color: var(--accent);
+}
+
+.calendar-day strong {
+  font-size: 15px;
+}
+
+.day-total {
+  max-width: 100%;
+  min-height: 16px;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.day-total.income {
+  color: var(--income);
+}
+
+.day-total.expense {
+  color: var(--expense);
 }
 
 .summary article {
@@ -297,8 +385,123 @@ button:disabled {
   text-align: center;
 }
 
+.fab-button {
+  position: fixed;
+  right: max(18px, calc((100vw - 520px) / 2 + 18px));
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  left: max(18px, calc((100vw - 520px) / 2 + 18px));
+  min-height: 54px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-weight: 900;
+  box-shadow: 0 12px 32px rgba(24, 33, 31, 0.24);
+}
+
+.sheet-backdrop,
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  background: rgba(24, 33, 31, 0.36);
+}
+
+.sheet-backdrop {
+  align-items: end;
+}
+
+.entry-sheet {
+  display: grid;
+  gap: 14px;
+  width: min(100%, 560px);
+  max-height: min(86vh, 760px);
+  margin: 0 auto;
+  padding: 16px 16px calc(18px + env(safe-area-inset-bottom));
+  overflow: auto;
+  border-radius: 8px 8px 0 0;
+  background: var(--bg);
+}
+
+.sheet-header,
+.batch-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.entry-rows {
+  display: grid;
+  gap: 12px;
+}
+
+.batch-row {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form-grid .field:nth-child(2) {
+  grid-column: 1 / -1;
+}
+
+.compact-segmented {
+  grid-template-columns: 1fr 1fr;
+}
+
+.small-button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  padding: 0 10px;
+}
+
+.dialog-backdrop {
+  place-items: center;
+  padding: 18px;
+}
+
+.dialog {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 360px);
+  padding: 18px;
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.signup-dialog {
+  width: min(100%, 420px);
+}
+
+.dialog strong {
+  font-size: 20px;
+}
+
+.dialog p {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .toast {
   position: fixed;
+  z-index: 30;
   right: 18px;
   bottom: calc(18px + env(safe-area-inset-bottom));
   left: 18px;
