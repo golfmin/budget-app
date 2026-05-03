@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#176b5f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="&#44032;&#44228;&#48512;" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>&#44032;&#44228;&#48512;</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="sessionLabel">&#47196;&#44536;&#51064; &#54596;&#50836;</p>
+          <h1>&#44032;&#44228;&#48512;</h1>
+        </div>
+        <button class="icon-button" id="signOutButton" type="button" aria-label="&#47196;&#44536;&#50500;&#50883;" title="&#47196;&#44536;&#50500;&#50883;" hidden>
+          &#9099;
+        </button>
+      </header>
+
+      <section class="setup-notice" id="setupNotice" hidden>
+        <strong>Supabase &#49444;&#51221;&#51060; &#54596;&#50836;&#54633;&#45768;&#45796;.</strong>
+        <p><code>config.js</code>&#50640; Supabase URL&#44284; anon key&#47484; &#45347;&#51004;&#47732; &#47196;&#44536;&#51064;&#44284; &#44277;&#50976; DB&#44032; &#51089;&#46041;&#54633;&#45768;&#45796;.</p>
+      </section>
+
+      <section class="auth-panel" id="authPanel">
+        <form class="entry-form" id="authForm">
+          <div class="section-title">
+            <h2>&#48512;&#48512; &#44277;&#50976; &#47196;&#44536;&#51064;</h2>
+          </div>
+
+          <label class="field">
+            <span>&#51060;&#47700;&#51068;</span>
+            <input id="emailInput" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          </label>
+
+          <label class="field">
+            <span>&#48708;&#48128;&#48264;&#54840;</span>
+            <input id="passwordInput" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="6&#51088; &#51060;&#49345;" required />
+          </label>
+
+          <label class="field">
+            <span>&#44277;&#50976; &#53076;&#46300;</span>
+            <input id="householdCodeInput" name="householdCode" type="text" autocapitalize="characters" placeholder="&#50696;: FAMILY2026" required />
+          </label>
+
+          <div class="button-row">
+            <button class="primary-button" id="signInButton" type="submit">&#47196;&#44536;&#51064;</button>
+            <button class="secondary-button" id="signUpButton" type="button">&#54924;&#50896;&#44032;&#51077;</button>
+          </div>
+          <p class="helper-text">&#46160; &#49324;&#46988;&#51060; &#44057;&#51008; &#44277;&#50976; &#53076;&#46300;&#47484; &#51077;&#47141;&#54616;&#47732; &#44057;&#51008; &#44032;&#44228;&#48512;&#47484; &#48389;&#45768;&#45796;.</p>
+        </form>
+      </section>
+
+      <section id="appPanel" hidden>
+        <section class="summary" aria-label="&#50900;&#44036; &#50836;&#50557;">
+          <article>
+            <span>&#49688;&#51077;</span>
+            <strong id="incomeTotal">&#8361;0</strong>
+          </article>
+          <article>
+            <span>&#51648;&#52636;</span>
+            <strong id="expenseTotal">&#8361;0</strong>
+          </article>
+          <article class="balance">
+            <span>&#51092;&#50529;</span>
+            <strong id="balanceTotal">&#8361;0</strong>
+          </article>
+        </section>
+
+        <form class="entry-form" id="entryForm">
+          <div class="segmented" role="group" aria-label="&#44144;&#47000; &#50976;&#54805;">
+            <label>
+              <input type="radio" name="type" value="expense" checked />
+              <span>&#51648;&#52636;</span>
+            </label>
+            <label>
+              <input type="radio" name="type" value="income" />
+              <span>&#49688;&#51077;</span>
+            </label>
+          </div>
+
+          <label class="field">
+            <span>&#54637;&#47785;</span>
+            <input id="titleInput" name="title" type="text" placeholder="&#50696;: &#51216;&#49900;, &#50900;&#44553;" required />
+          </label>
+
+          <label class="field">
+            <span>&#44552;&#50529;</span>
+            <input id="amountInput" name="amount" type="number" inputmode="numeric" min="1" step="1" placeholder="0" required />
+          </label>
+
+          <label class="field">
+            <span>&#48516;&#47448;</span>
+            <select id="categoryInput" name="category">
+              <option>&#49885;&#48708;</option>
+              <option>&#44368;&#53685;</option>
+              <option>&#49373;&#54876;</option>
+              <option>&#49660;&#54609;</option>
+              <option>&#44256;&#51221;&#48708;</option>
+              <option>&#44553;&#50668;</option>
+              <option>&#44592;&#53440;</option>
+            </select>
+          </label>
+
+          <button class="primary-button" id="addEntryButton" type="submit">&#44592;&#47197; &#52628;&#44032;</button>
+        </form>
+
+        <section class="history" aria-label="&#44144;&#47000; &#45236;&#50669;">
+          <div class="section-title">
+            <h2>&#52572;&#44540; &#44592;&#47197;</h2>
+            <span id="entryCount">0&#44148;</span>
+          </div>
+          <ul id="entryList"></ul>
+          <p class="empty-state" id="emptyState">&#50500;&#51649; &#44592;&#47197;&#51060; &#50630;&#49845;&#45768;&#45796;.</p>
+        </section>
+      </section>
+
+      <p class="toast" id="toast" role="status" aria-live="polite" hidden></p>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./config.js"></script>
+    <script src="./app.js" defer></script>
+  </body>
+</html>

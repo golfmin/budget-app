@@ -1,0 +1,17 @@
+{
+  "name": "\uAC00\uACC4\uBD80",
+  "short_name": "\uAC00\uACC4\uBD80",
+  "description": "\uC544\uC774\uD3F0 \uD648 \uD654\uBA74\uC5D0 \uCD94\uAC00\uD574\uC11C \uC4F0\uB294 \uBD80\uBD80 \uACF5\uC720 \uAC00\uACC4\uBD80",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f2ea",
+  "theme_color": "#176b5f",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
