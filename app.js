@@ -6,6 +6,7 @@ const text = {
   signUpDone: "\ud68c\uc6d0\uac00\uc785\uc774 \uc644\ub8cc\ub410\uc2b5\ub2c8\ub2e4. \uc774\uba54\uc77c \ud655\uc778\uc774 \ud544\uc694\ud558\uba74 \uba54\uc77c\ud568\uc744 \ud655\uc778\ud574\uc8fc\uc138\uc694.",
   signUpFailed: "\ud68c\uc6d0\uac00\uc785\uc5d0 \uc2e4\ud328\ud588\uc2b5\ub2c8\ub2e4.",
   savingFailed: "\uc800\uc7a5\uc5d0 \uc2e4\ud328\ud588\uc2b5\ub2c8\ub2e4.",
+  schemaUpdateNeeded: "Supabase DB \uc5c5\ub370\uc774\ud2b8\uac00 \ud544\uc694\ud569\ub2c8\ub2e4. supabase-fix-payer-columns.sql\uc744 SQL Editor\uc5d0\uc11c \uc2e4\ud589\ud55c \ub4a4 1\ubd84 \ud6c4 \ub2e4\uc2dc \uc800\uc7a5\ud574\uc8fc\uc138\uc694.",
   saved: "\uc800\uc7a5\ud588\uc2b5\ub2c8\ub2e4.",
   loadingFailed: "\uae30\ub85d\uc744 \ubd88\ub7ec\uc624\uc9c0 \ubabb\ud588\uc2b5\ub2c8\ub2e4.",
   signedOut: "\ub85c\uadf8\uc544\uc6c3\ub410\uc2b5\ub2c8\ub2e4.",
@@ -595,6 +596,16 @@ batchEntryForm.addEventListener("submit", async (event) => {
   setBusy(batchEntryForm, false);
 
   if (error) {
+    if (
+      error.code === "PGRST204" ||
+      error.message?.includes("schema cache") ||
+      error.message?.includes("'payer' column") ||
+      error.message?.includes("'payment_method' column")
+    ) {
+      showToast(text.schemaUpdateNeeded);
+      return;
+    }
+
     showToast(`${text.savingFailed} ${error.message}`);
     return;
   }
