@@ -612,6 +612,11 @@ closeVerifiedDialogButton.addEventListener("click", () => {
 });
 
 async function boot() {
+  if ("serviceWorker" in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map((registration) => registration.unregister()));
+  }
+
   populateMonthSelect();
   setupNotice.hidden = isConfigured;
   renderAuthState();
@@ -631,12 +636,6 @@ async function boot() {
 
   supabaseClient.auth.onAuthStateChange((_event, nextSession) => {
     applySession(nextSession);
-  });
-}
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
   });
 }
 
