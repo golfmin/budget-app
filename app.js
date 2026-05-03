@@ -59,7 +59,7 @@ function showToast(message) {
   window.clearTimeout(showToast.timer);
   showToast.timer = window.setTimeout(() => {
     toast.hidden = true;
-  }, 3200);
+  }, 8000);
 }
 
 function formatWon(value) {
@@ -254,6 +254,10 @@ authForm.addEventListener("submit", async (event) => {
 signUpButton.addEventListener("click", async () => {
   if (!isConfigured) {
     showToast(text.setupNeeded);
+    return;
+  }
+
+  if (!authForm.reportValidity()) {
     return;
   }
 
