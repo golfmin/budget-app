@@ -1,10 +1,9 @@
-const cacheName = "budget-pwa-v2";
+const cacheName = "budget-pwa-v3";
 const appFiles = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
-  "./config.js",
   "./manifest.webmanifest",
   "./icon.svg",
 ];

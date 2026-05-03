@@ -1,4 +1,4 @@
 window.BUDGET_APP_CONFIG = {
-  supabaseUrl: "YOUR_SUPABASE_URL",
-  supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY",
+  supabaseUrl: "https://wckztslzudiupepccqpt.supabase.co",
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indja3p0c2x6dWRpdXBlcGNjcXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3OTgyODEsImV4cCI6MjA5MzM3NDI4MX0.5cl00aYBQnLzEhwqY5cMIn2pO987sEnT1zNtfrOpohk",
 };
